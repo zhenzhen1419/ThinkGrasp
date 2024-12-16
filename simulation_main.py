@@ -20,8 +20,7 @@ from langsam import langsamutils
 from langsam.langsam_actor import LangSAM
 from logger import Logger
 from grasp_detetor import Graspnet
-from models.sac import ViLG
-from VLP.new_vlp_actor import SegmentAnythingActor
+# from VLP.new_vlp_actor import SegmentAnythingActor
 from openai import OpenAI
 
 import base64
@@ -340,10 +339,10 @@ if __name__ == "__main__":
 
                 image_path = 'color_map.png'
                 base64_image = load_image_as_base64(image_path)
-                # 输入文本
+
                 input_text = lang_goal
 
-                # 配置输入消息
+
                 messages = [
                     {
                         "role": "system",
@@ -474,7 +473,7 @@ if __name__ == "__main__":
                         if masks is None or masks.numel() == 0:
                             masks, boxes, phrases, logits = ray.get(langsam_actor.predict.remote(image_pil, "object"))
 
-                   boxes_list = boxes.cpu().numpy().tolist()  # Convert to list
+                    boxes_list = boxes.cpu().numpy().tolist()  # Convert to list
                     cropping_box = create_cropping_box_from_boxes(boxes_list,
                                                                   (color_image.shape[1], color_image.shape[0]))
 
