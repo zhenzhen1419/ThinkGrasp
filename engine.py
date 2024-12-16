@@ -1,12 +1,11 @@
 # 2022/11/21
 import os
 import sys
-sys.path.append('/home/freax/Documents/GitHub/vlghard/GraspNet')
 import pybullet as p
-from GraspNet.model.FGC_graspnet import FGC_graspnet
-from GraspNet.model.decode import pred_decode
-from GraspNet.utils.data_utils import CameraInfo, create_point_cloud_from_depth_image
-from GraspNet.utils.collision_detector import ModelFreeCollisionDetector
+from models.FGC_graspnet.model.FGC_graspnet import FGC_graspnet
+from models.FGC_graspnet.model.decode import pred_decode
+from models.FGC_graspnet.utils.data_utils import CameraInfo, create_point_cloud_from_depth_image
+from models.FGC_graspnet.utils.collision_detector import ModelFreeCollisionDetector
 
 
 from graspnetAPI import GraspGroup

@@ -15,11 +15,11 @@ import argparse
 from engine import grasp_model
 from langsam import langsamutils
 from langsam.langsam_actor import LangSAM
-from VLP.new_vlp_actor import SegmentAnythingActor
+# from VLP.new_vlp_actor import SegmentAnythingActor
 from openai import OpenAI
 from grasp_detetor import Graspnet
 import utils
-from models.sac import ViLG
+
 
 app = Flask(__name__)
 def get_args_parser():
@@ -162,9 +162,9 @@ use_gpu = torch.cuda.is_available()
 gpu_allocation = 0.8 if use_gpu else 0
 actor_options = {"num_gpus": gpu_allocation}
 langsam_actor = LangSAM.options(**actor_options).remote(use_gpu=use_gpu)
-vlp_actor = SegmentAnythingActor.options(**actor_options).remote(
-    vlpart_checkpoint="VLP/swinbase_part_0a0000.pth", sam_checkpoint="VLP/sam_vit_h_4b8939.pth",
-    device="cuda" if use_gpu else "cpu")
+# vlp_actor = SegmentAnythingActor.options(**actor_options).remote(
+#     vlpart_checkpoint="VLP/swinbase_part_0a0000.pth", sam_checkpoint="VLP/sam_vit_h_4b8939.pth",
+#     device="cuda" if use_gpu else "cpu")
 
 def visualize_cropping_box(image, cropping_box):
     # Visualize the cropping box on the image
