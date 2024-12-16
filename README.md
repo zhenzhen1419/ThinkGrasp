@@ -5,7 +5,23 @@ Welcome to the official repository for **ThinkGrasp: A Vision-Language System fo
 
 [![arXiv](https://img.shields.io/badge/arXiv-%23B31B1B.svg?style=for-the-badge&logo=arXiv&logoColor=white)](https://arxiv.org/abs/2407.11298)  [![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://www.youtube.com/watch?v=o5QHFhI95Qo) [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?style=for-the-badge&logo=GitHub&logoColor=white)](https://github.com/H-Freax/ThinkGrasp)  
 ![image](https://github.com/user-attachments/assets/373caf62-99eb-44f6-a7e6-65d18e05e37e)
----
+
+
+## Table of Contents
+
+- [To-Do List](#to-do-list)
+- [Setup](#setup)
+  - [Installation Requirements](#installation-requirements)
+  - [Installation Steps](#installation-steps)
+- [Assets](#assets)
+- [Running the Simulation](#running-the-simulation)
+- [Running the Realworld Code](#running-the-realworld-code)
+  - [Flask Application Notes](#flask-application-notes)
+  - [Testing the API](#testing-the-api)
+- [Potential Issues of Installation](#potential-issues-of-installation)
+- [Citation](#citation)
+
+
 
 ## To-Do List
 - [x] Simulation Code Cleanup (without VLP)
@@ -135,6 +151,86 @@ ThinkGrasp
    python realarm.py
    ```  
 
+#### Flask Application Notes:
+
+1. **Flask Configuration**:
+   The Flask application is configured to run on:
+   ```python
+   app.run(host='0.0.0.0', port=5000)
+   ```
+   This allows the app to be accessed from any network interface on port `5000`.
+
+2. **API Endpoint**:
+   The Flask application provides the following endpoint:
+   ```
+   POST http://localhost:5000/grasp_pose
+   ```
+   **Payload Format**:
+   ```json
+   {
+       "image_path": "/path/to/rgb/image.png",
+       "depth_path": "/path/to/depth/image.png",
+       "text_path": "/path/to/goal_text.txt"
+   }
+   ```
+
+   - **image_path**: The path to the RGB image captured by the **real-world camera** connected to your robotic setup.
+   - **depth_path**: The path to the depth image from the same **real-world camera**.
+   - **text_path**: A text file containing the goal or task description.
+
+---
+
+#### Testing the API:
+
+You can test the API using various tools:
+
+##### **Postman**:
+   1. Open Postman and create a new POST request.
+   2. Set the URL to `http://localhost:5000/grasp_pose`.
+   3. In the "Body" tab, select "raw" and set the type to `JSON`.
+   4. Provide the JSON payload, ensuring the paths point to the images captured by your **real-world camera**:
+      ```json
+      {
+          "image_path": "/home/freax/camera_outputs/rgb_image.png",
+          "depth_path": "/home/freax/camera_outputs/depth_image.png",
+          "text_path": "/home/freax/goal_texts/task_goal.txt"
+      }
+      ```
+   5. Click "Send" to test the endpoint.
+
+##### **Curl**:
+   Alternatively, use `curl` in the terminal:
+   ```bash
+   curl -X POST http://localhost:5000/grasp_pose \
+   -H "Content-Type: application/json" \
+   -d '{
+       "image_path": "/home/freax/camera_outputs/rgb_image.png",
+       "depth_path": "/home/freax/camera_outputs/depth_image.png",
+       "text_path": "/home/freax/goal_texts/task_goal.txt"
+   }'
+   ```
+
+##### **Python Script**:
+   Use Python's `requests` library:
+   ```python
+   import requests
+
+   url = "http://localhost:5000/grasp_pose"
+   payload = {
+       "image_path": "/home/freax/camera_outputs/rgb_image.png",
+       "depth_path": "/home/freax/camera_outputs/depth_image.png",
+       "text_path": "/home/freax/goal_texts/task_goal.txt"
+   }
+   response = requests.post(url, json=payload)
+   print(response.json())
+   ```
+
+---
+
+#### Notes:
+- Ensure that the **real-world camera** is correctly configured and outputs the RGB and depth images to the specified paths (`/home/freax/camera_outputs/` in the example).
+- If testing on a remote server, replace `localhost` with the server's IP address in your requests.
+- Verify that all files are accessible and correctly formatted for processing by the application.
 
 ---
 
